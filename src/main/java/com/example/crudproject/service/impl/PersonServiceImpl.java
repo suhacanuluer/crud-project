@@ -25,25 +25,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void delete(Long id) {
-        PersonEntity personEntity = personRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        personRepository.delete(personEntity);
-    }
-
-    @Override
     public PersonDto get(Long id) {
-        return personRepository.findById(id).map(PersonDto::of).orElseThrow(() -> new RuntimeException(id + " not found"));
-    }
-
-    @Override
-    public PersonDto update(Long id, PersonDto personDto) {
-        return null;
-    }
-
-    @Override
-    public PersonDto update(PersonDto personDto) {
-
-        return null;
+        return personRepository.findById(id)
+                .map(PersonDto::of)
+                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
     }
 
     @Override
@@ -51,6 +36,27 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findAll().stream()
                 .map(PersonDto::of)
                 .toList();
+    }
+
+    @Override
+    public PersonDto update(Long id, PersonDto newPersonDto) {
+        PersonEntity personEntity = personRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
+
+        personEntity.setName(newPersonDto.getName());
+        personEntity.setSurname(newPersonDto.getSurname());
+        personEntity.setAge(newPersonDto.getAge());
+        personEntity.setCity(newPersonDto.getCity());
+        personEntity.setIsStudent(newPersonDto.getIsStudent());
+
+        return PersonDto.of(personEntity); // SOR? direkt yeni dto dönmek efektif mi?
+    }
+
+    @Override
+    public void delete(Long id) {
+        PersonEntity personEntity = personRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(id + ": not found"));
+        personRepository.delete(personEntity);
     }
 
 }
