@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,13 +44,14 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personEntity = personRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
 
+        // mapping kullanılacak
         personEntity.setName(newPersonDto.getName());
         personEntity.setSurname(newPersonDto.getSurname());
         personEntity.setAge(newPersonDto.getAge());
         personEntity.setCity(newPersonDto.getCity());
         personEntity.setIsStudent(newPersonDto.getIsStudent());
 
-        return PersonDto.of(personEntity); // SOR? direkt yeni dto dönmek efektif mi?
+        return PersonDto.of(personEntity);
     }
 
     @Override
@@ -57,6 +59,13 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personEntity = personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(id + ": not found"));
         personRepository.delete(personEntity);
+    }
+
+    @Override
+    public List<PersonDto> getByCity(String city) {
+        return personRepository.findByCity(city).stream()
+                .map(PersonDto::of)
+                .toList();
     }
 
 }

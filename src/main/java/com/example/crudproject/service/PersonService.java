@@ -11,4 +11,5 @@ public interface PersonService {
     List<PersonDto> getAll();
     PersonDto update(Long id, PersonDto personDto);
     void delete(Long id);
+    List<PersonDto> getByCity(String city);
 }

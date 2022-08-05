@@ -25,7 +25,7 @@ public class PersonController {
     public ResponseEntity<PersonDto> get(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(personService.get(id));
-        } catch (RuntimeException exception){
+        } catch (RuntimeException exception) {
             return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
@@ -35,11 +35,21 @@ public class PersonController {
         return ResponseEntity.ok(personService.getAll());
     }
 
+    @GetMapping("/city") // requestparam kullanıldı. hata alıyorum;
+    // nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result:
+    public ResponseEntity<List<PersonDto>> getByCity(@RequestParam String city) {
+        try {
+            return ResponseEntity.ok(personService.getByCity(city));
+        } catch (RuntimeException exception) {
+            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PersonDto> update(@PathVariable Long id, @RequestBody PersonDto personDto) {
         try {
             return ResponseEntity.ok((personService.update(id, personDto)));
-        } catch (RuntimeException exception){
+        } catch (RuntimeException exception) {
             return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
