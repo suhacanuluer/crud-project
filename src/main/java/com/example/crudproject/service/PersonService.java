@@ -7,11 +7,8 @@ import java.util.List;
 public interface PersonService {
 
     PersonDto save(PersonDto personDto);
-    void delete(Long id);
-
-    PersonDto update(PersonDto personDto);
-
-    List<PersonDto> getAll();
     PersonDto get(Long id);
+    List<PersonDto> getAll();
     PersonDto update(Long id, PersonDto personDto);
+    void delete(Long id);
 }
