@@ -35,8 +35,7 @@ public class PersonController {
         return ResponseEntity.ok(personService.getAll());
     }
 
-    @GetMapping("/city") // requestparam kullanıldı. hata alıyorum;
-    // nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result:
+    @GetMapping("/city") // requestparam kullanıldı.
     public ResponseEntity<List<PersonDto>> getByCity(@RequestParam String city) {
         try {
             return ResponseEntity.ok(personService.getByCity(city));

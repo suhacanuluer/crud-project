@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
@@ -15,5 +15,5 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
             nativeQuery = true,
             value = "select * from person p where p.city = :city"
     )
-    Optional<PersonEntity> findByCity(@Param("city") String city);
+    List<PersonEntity> findByCity(@Param("city") String city);
 }
