@@ -1,11 +1,12 @@
 package com.example.crudproject.dto;
 
-import com.example.crudproject.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PersonDto {
 
     private Long id;
@@ -15,12 +16,4 @@ public class PersonDto {
     private String city;
     private Boolean isStudent;
 
-    public static PersonDto of(PersonEntity personEntity) {
-        return new PersonDto(personEntity.getId(),
-                personEntity.getName(),
-                personEntity.getSurname(),
-                personEntity.getAge(),
-                personEntity.getCity(),
-                personEntity.getIsStudent());
-    }
 }
