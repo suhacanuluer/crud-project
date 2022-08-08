@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-    private PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
+    private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
     @Override
     public PersonDto save(PersonDto personDto) {
@@ -31,18 +31,14 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDto get(Long id) {
         return personRepository.findById(id)
-                .map(personEntity -> {
-                    return personMapper.personEntityToPersonDto(personEntity);
-                })
+                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
                 .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
     }
 
     @Override
     public List<PersonDto> getAll() {
         return personRepository.findAll().stream()
-                .map(personEntity -> {
-                    return personMapper.personEntityToPersonDto(personEntity);
-                })
+                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
                 .collect(Collectors.toList());
     }
 
@@ -67,9 +63,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDto> getByCity(String city) {
         return personRepository.findByCity(city).stream()
-                .map(personEntity -> {
-                    return personMapper.personEntityToPersonDto(personEntity);
-                })
+                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
                 .collect(Collectors.toList()); // incele anlamaya calıs
     }
 
