@@ -18,13 +18,13 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<PersonDto> add(@RequestBody PersonDto personDto) {
-        return ResponseEntity.ok(personService.save(personDto));
+        return ResponseEntity.ok(personService.create(personDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDto> get(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(personService.get(id));
+            return ResponseEntity.ok(personService.getById(id));
         } catch (RuntimeException exception) {
             return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
         }

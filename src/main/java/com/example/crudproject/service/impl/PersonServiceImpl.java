@@ -6,7 +6,6 @@ import com.example.crudproject.mapper.PersonMapper;
 import com.example.crudproject.repository.PersonRepository;
 import com.example.crudproject.service.PersonService;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,18 +19,17 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-    private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
     @Override
-    public PersonDto save(PersonDto personDto) {
-        PersonEntity personEntity = personRepository.save(personMapper.personDtoToPersonEntity(personDto));
-        return personMapper.personEntityToPersonDto(personEntity);
+    public PersonDto create(PersonDto personDto) {
+        PersonEntity personEntity = personRepository.save(PersonMapper.INSTANCE.personDtoToPersonEntity(personDto));
+        return PersonMapper.INSTANCE.personEntityToPersonDto(personEntity);
     }
 
     @Override
-    public PersonDto get(Long id) {
+    public PersonDto getById(Long id) {
         return personRepository.findById(id)
-                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
+                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
         // Stream#map stream içindeki yığınsal olarak bulunan her bir veriyi dönüştürmeye olanak tanır.
         // Dönüştürüm işlemi Stream içerisindeki her bir öğe için ayrı ayrı yapılmaktadır.
         // Stream#map metodu Function türünden bir parametre beklemektedir.
@@ -41,7 +39,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDto> getAll() {
         return personRepository.findAll().stream()
-                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
+                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
                 .collect(Collectors.toList()); // stream to list dönüşümü
         // Stream#collect metodu Collector türünden bir parametre kabul etmektedir.
         // Bu parametre ile istendik türe dönüşüm sağlanmaktadır.
@@ -53,10 +51,10 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personEntity = personRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
 
-        personMapper.updatePersonFromDto(newPersonDto, personEntity);
+        PersonMapper.INSTANCE.updatePersonFromDto(newPersonDto, personEntity);
         personRepository.save(personEntity);
 
-        return personMapper.personEntityToPersonDto(personEntity);
+        return PersonMapper.INSTANCE.personEntityToPersonDto(personEntity);
     }
 
     @Override
@@ -69,7 +67,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDto> getByCity(String city) {
         return personRepository.findByCity(city).stream()
-                .map(personEntity -> personMapper.personEntityToPersonDto(personEntity))
+                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
                 .collect(Collectors.toList());
     }
 
