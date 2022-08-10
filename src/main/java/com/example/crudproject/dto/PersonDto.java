@@ -1,8 +1,10 @@
 package com.example.crudproject.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +17,6 @@ public class PersonDto {
     private int age;
     private String city;
     private Boolean isStudent;
+    private List<TodoDto> todos;
 
 }
