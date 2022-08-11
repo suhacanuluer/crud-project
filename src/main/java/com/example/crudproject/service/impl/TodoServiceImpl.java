@@ -3,6 +3,7 @@ package com.example.crudproject.service.impl;
 import com.example.crudproject.dto.TodoDto;
 import com.example.crudproject.entity.PersonEntity;
 import com.example.crudproject.entity.TodoEntity;
+import com.example.crudproject.exception.EntityNotFoundException;
 import com.example.crudproject.mapper.PersonMapper;
 import com.example.crudproject.mapper.TodoMapper;
 import com.example.crudproject.repository.TodoRepository;
@@ -11,8 +12,6 @@ import com.example.crudproject.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -34,7 +33,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void complete(Long id) {
         TodoEntity todoEntity = todoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
+                .orElseThrow(() -> new EntityNotFoundException("id:" + id + " not found"));
         todoEntity.setIsCompleted(true);
         todoRepository.save(todoEntity);
     }
@@ -42,7 +41,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoDto update(Long id, TodoDto newTodoDto) {
         TodoEntity todoEntity = todoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
+                .orElseThrow(() -> new EntityNotFoundException("id:" + id + " not found"));
 
         TodoMapper.INSTANCE.updateTodoFromDto(newTodoDto, todoEntity);
         todoRepository.save(todoEntity);

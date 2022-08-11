@@ -2,6 +2,7 @@ package com.example.crudproject.service.impl;
 
 import com.example.crudproject.dto.PersonDto;
 import com.example.crudproject.entity.PersonEntity;
+import com.example.crudproject.exception.EntityNotFoundException;
 import com.example.crudproject.mapper.PersonMapper;
 import com.example.crudproject.repository.PersonRepository;
 import com.example.crudproject.service.PersonService;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +33,7 @@ public class PersonServiceImpl implements PersonService {
         // Stream#map stream içindeki yığınsal olarak bulunan her bir veriyi dönüştürmeye olanak tanır.
         // Dönüştürüm işlemi Stream içerisindeki her bir öğe için ayrı ayrı yapılmaktadır.
         // Stream#map metodu Function türünden bir parametre beklemektedir.
-                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
+                .orElseThrow(() -> new EntityNotFoundException("id:" + id + " not found"));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDto update(Long id, PersonDto newPersonDto) {
         PersonEntity personEntity = personRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(id + ": not found"));
+                .orElseThrow(() -> new EntityNotFoundException("id:" + id + " not found"));
 
         PersonMapper.INSTANCE.updatePersonFromDto(newPersonDto, personEntity);
         personRepository.save(personEntity);
@@ -60,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void delete(Long id) {
         PersonEntity personEntity = personRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + ": not found"));
+                .orElseThrow(() -> new EntityNotFoundException("id:" + id + " not found"));
         personRepository.delete(personEntity);
     }
 

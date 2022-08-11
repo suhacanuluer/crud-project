@@ -1,9 +1,9 @@
 package com.example.crudproject.controller;
 
 import com.example.crudproject.dto.PersonDto;
+import com.example.crudproject.exception.EntityNotFoundException;
 import com.example.crudproject.service.PersonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +25,8 @@ public class PersonController {
     public ResponseEntity<PersonDto> get(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(personService.getById(id));
-        } catch (RuntimeException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (EntityNotFoundException exception) {
+            throw new EntityNotFoundException(exception.getMessage());
         }
     }
 
@@ -39,8 +39,8 @@ public class PersonController {
     public ResponseEntity<List<PersonDto>> getByCity(@RequestParam String city) {
         try {
             return ResponseEntity.ok(personService.getByCity(city));
-        } catch (RuntimeException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (EntityNotFoundException exception) {
+            throw new EntityNotFoundException(exception.getMessage());
         }
     }
 
@@ -48,8 +48,8 @@ public class PersonController {
     public ResponseEntity<PersonDto> update(@PathVariable Long id, @RequestBody PersonDto personDto) {
         try {
             return ResponseEntity.ok((personService.update(id, personDto)));
-        } catch (RuntimeException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (EntityNotFoundException exception) {
+            throw new EntityNotFoundException(exception.getMessage());
         }
     }
 
@@ -58,8 +58,8 @@ public class PersonController {
             try {
                 personService.delete(id);
                 return ResponseEntity.ok().build();
-            } catch (RuntimeException exception) {
-                return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+            } catch (EntityNotFoundException exception) {
+                throw new EntityNotFoundException(exception.getMessage());
             }
     }
 

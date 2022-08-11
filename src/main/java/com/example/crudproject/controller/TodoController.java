@@ -1,9 +1,9 @@
 package com.example.crudproject.controller;
 
 import com.example.crudproject.dto.TodoDto;
+import com.example.crudproject.exception.EntityNotFoundException;
 import com.example.crudproject.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ public class TodoController {
         try {
             return ResponseEntity.ok(todoService.update(id, todoDto));
         } catch (RuntimeException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException(exception.getMessage());
         }
     }
 
@@ -34,7 +34,7 @@ public class TodoController {
             todoService.complete(id);
             return ResponseEntity.ok().build();
         } catch (RuntimeException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException(exception.getMessage());
         }
     }
 }
