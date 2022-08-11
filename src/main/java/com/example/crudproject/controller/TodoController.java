@@ -14,7 +14,7 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @PostMapping("/{id}")
+    @PostMapping("/{personId}")
     public ResponseEntity<TodoDto> add(@PathVariable Long id, @RequestBody TodoDto todoDto) {
         return ResponseEntity.ok(todoService.create(id, todoDto));
     }

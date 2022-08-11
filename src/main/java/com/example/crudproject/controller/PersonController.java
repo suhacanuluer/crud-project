@@ -55,12 +55,17 @@ public class PersonController {
 
     @DeleteMapping("/{id}")  // review iste olması gerektiği gibi mi
     public ResponseEntity delete(@PathVariable Long id) {
-            try {
-                personService.delete(id);
-                return ResponseEntity.ok().build();
+            personService.delete(id);
+            return ResponseEntity.ok().build();
+
+            // TODO: if service is throw exception, should not use catch.
+            //  because thrown exception here is catching and needs against throw
+            //  if the service is not throw exception,
+            //  use the catch block and throw exception here.
+            /*try {
             } catch (EntityNotFoundException exception) {
                 throw new EntityNotFoundException(exception.getMessage());
-            }
+            }*/
     }
 
 }
