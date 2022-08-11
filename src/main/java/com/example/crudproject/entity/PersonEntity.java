@@ -17,8 +17,7 @@ import java.util.List;
 public class PersonEntity {
 
     @Id
-    @SequenceGenerator(name = "seq_person", allocationSize = 1)
-    @GeneratedValue(generator = "seq_person", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_person", strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;

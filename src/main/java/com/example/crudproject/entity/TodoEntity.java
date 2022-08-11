@@ -15,8 +15,7 @@ import javax.persistence.*;
 public class TodoEntity {
 
     @Id
-    @SequenceGenerator(name = "seq_person_todo", allocationSize = 1)
-    @GeneratedValue(generator = "seq_person_todo", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
