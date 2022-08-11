@@ -1,6 +1,5 @@
 package com.example.crudproject;
 
-import com.example.crudproject.entity.TodoEntity;
 import com.example.crudproject.repository.PersonRepository;
 import com.example.crudproject.repository.TodoRepository;
 import org.springframework.boot.SpringApplication;
