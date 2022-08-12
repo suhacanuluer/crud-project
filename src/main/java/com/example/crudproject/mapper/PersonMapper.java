@@ -2,7 +2,6 @@ package com.example.crudproject.mapper;
 
 import com.example.crudproject.dto.PersonDto;
 import com.example.crudproject.entity.PersonEntity;
-import com.example.crudproject.entity.TodoEntity;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

@@ -29,7 +29,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDto getById(Long id) {
         return personRepository.findById(id)
-                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
+                .map(PersonMapper.INSTANCE::personEntityToPersonDto)
         // Stream#map stream içindeki yığınsal olarak bulunan her bir veriyi dönüştürmeye olanak tanır.
         // Dönüştürüm işlemi Stream içerisindeki her bir öğe için ayrı ayrı yapılmaktadır.
         // Stream#map metodu Function türünden bir parametre beklemektedir.
@@ -39,7 +39,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDto> getAll() {
         return personRepository.findAll().stream()
-                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
+                .map(PersonMapper.INSTANCE::personEntityToPersonDto)
                 .collect(Collectors.toList()); // stream to list dönüşümü
         // Stream#collect metodu Collector türünden bir parametre kabul etmektedir.
         // Bu parametre ile istendik türe dönüşüm sağlanmaktadır.
@@ -67,7 +67,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDto> getByCity(String city) {
         return personRepository.findByCity(city).stream()
-                .map(personEntity -> PersonMapper.INSTANCE.personEntityToPersonDto(personEntity))
+                .map(PersonMapper.INSTANCE::personEntityToPersonDto)
                 .collect(Collectors.toList());
     }
 
